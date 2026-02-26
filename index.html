@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mundos Cruzados</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #000000, #ffffff);
+            color: #000;
+        }
+
+        .card {
+            background: #ffffff;
+            max-width: 850px;
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            display: inline-flex;
+            margin-bottom: 25px;
+        }
+
+        .logo div {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .logo .c {
+            background: #000;
+            color: #fff;
+        }
+
+        .logo .n {
+            background: #fff;
+            color: #000;
+            border: 4px solid #000;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #444;
+        }
+
+        .story {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .start-btn {
+            padding: 16px 42px;
+            font-size: 1.3rem;
+            border-radius: 40px;
+            border: 3px solid #000;
+            background: linear-gradient(135deg, #ffea00, #ff5500);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .start-btn:hover {
+            background: #00e5ff;
+            transform: scale(1.08) rotate(-1deg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+
+        <div class="logo">
+            <div class="c">C</div>
+            <div class="n">N</div>
+        </div>
+
+        <h1>Mundos Cruzados</h1>
+        <p class="tagline">
+            Un juego absurdo donde tendrás que ayudar a personajes icónicos
+        </p>
+
+        <p class="story">
+            Algo ha roto el equilibrio entre distintas realidades.
+            Extraños portales han comenzado a aparecer, conectando
+            mundos que nunca debieron cruzarse.
+            <br><br>
+            Habla con los personajes y completa misiones,
+            desbloquea portales para poder avanzar al siguiente mundo.
+        </p>
+
+        <button class="start-btn" onclick="irAlMundo()">
+            Empezar aventura
+        </button>
+
+        <footer>
+            Proyecto escolar • Johan Sinisterra y Andres Rodrigues
+        </footer>
+
+    </div>
+
+    <script>
+        function irAlMundo() {
+            window.location.href = ".html";
+        }
+    </script>
+
+</body>
+</html>
