@@ -66,6 +66,7 @@ body { margin: 0; overflow: hidden; }
            gltf-model="modelos 3d scaperoom/slice_of_pizza.glb"
            position="-0.479 -0.034 0.223"
            scale="10.326 10.326 10.326"
+           color="yellow"
            visible="false">
  </a-entity>
 
@@ -79,7 +80,7 @@ body { margin: 0; overflow: hidden; }
 
  <a-entity id="portal"
            gltf-model="modelos 3d scaperoom/nether_portal.glb"
-           position="3.353 0.239 -4.467"
+           position="3.353 -0.342 -4.467"
            rotation="0 0 0 "
             scale="0.213 0.213 0.213"
            visible="false">
@@ -127,7 +128,7 @@ window.onload = () => {
 
    else if (estado === "entregoPizza") {
      dialogo.setAttribute("value",
-       "Graciaaaas 😍 estaba riquísima.\n" +
+       "Graciaaaas 😍 estaba riquísima y un poco quemada chaval.\n" +
        "Ahora dime...\n" +
        "¿Cómo se llaman mis mejores amigos?");
      
@@ -171,7 +172,7 @@ window.onload = () => {
      } else {
        dialogo.setAttribute("value",
          "Mmmmmm nop 😝\n" +
-         "Pista: uno tiene cabeza cuadrada y el otro es calvillo.");
+         "Pista: uno tiene cabeza cuadrada como el maicraf y el otro es calvillo .");
      }
    }
  });
