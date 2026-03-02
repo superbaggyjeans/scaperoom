@@ -1,70 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="utf-8">
- <title>Mundo Clarence</title>
+<meta charset="utf-8">
+<title>Mundo Clarence</title>
 
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 
- <!-- A-Frame -->
- <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<style>
+body { margin: 0; overflow: hidden; }
 
+#ui {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  display: none;
+  z-index: 9999;
+}
 
- <style>
-   body { margin: 0; overflow: hidden; }
+#respuesta {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+}
 
-
-   #ui {
-     position: absolute;
-     bottom: 20px;
-     width: 100%;
-     text-align: center;
-     display: none;
-   }
-
-
-   #respuesta {
-     padding: 10px;
-     font-size: 16px;
-     width: 250px;
-   }
-
-
-   #btnResponder {
-     padding: 10px;
-     font-size: 16px;
-     cursor: pointer;
-   }
- </style>
+#btnResponder {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
 </head>
-
 
 <body>
 
-
-<!-- UI para responder -->
 <div id="ui">
  <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
  <button id="btnResponder">Responder</button>
 </div>
 
-
 <a-scene>
 
-
- <!-- Cámara -->
- <a-entity camera look-controls wasd-controls="acceleration: 10" cursor="rayOrigin: mouse" position="2.918 0.820 5.603">
+ <a-entity id="camara"
+           camera
+           look-controls="pointerLockEnabled: false"
+           wasd-controls="acceleration: 10"
+           cursor="rayOrigin: mouse"
+           position="2.918 0.820 5.603">
    <a-cursor></a-cursor>
  </a-entity>
 
-
- <!-- Mundo 3D -->
  <a-entity gltf-model="modelos 3d scaperoom/lowpoly_stylized_ghetto_city_pack.glb"
            position="0 0 0"
            scale="1.891 3.458 1.888">
  </a-entity>
 
-
- <!-- Clarence -->
  <a-entity id="clarence"
            gltf-model="clarence_hip_hop_dancing.glb"
            position="1.801 -0.014 0.692"
@@ -72,34 +62,25 @@
            scale="0.397 0.417 0.379">
  </a-entity>
 
-
- <!-- Pizza -->
  <a-entity id="pizza"
            gltf-model="modelos 3d scaperoom/slice_of_pizza.glb"
            position="-0.479 -0.034 0.223"
-           rotation="0 0 0"
            scale="10.326 10.326 10.326"
            visible="false">
  </a-entity>
 
-
- <!-- Llave -->
  <a-entity id="llave"
            gltf-model="assets/llave.glb"
            position="0 0 -5"
            visible="false">
  </a-entity>
 
-
- <!-- Portal -->
  <a-entity id="portal"
            gltf-model="assets/portal.glb"
            position="0 0 -9"
            visible="false">
  </a-entity>
 
-
- <!-- Texto diálogo -->
  <a-text id="dialogo"
          position="2.459 1.110 -0.030"
          rotation="0 40.126 0"
@@ -110,16 +91,12 @@
          visible="false">
  </a-text>
 
-
 </a-scene>
-
 
 <script>
 let estado = "inicio";
 
-
 window.onload = () => {
-
 
  const clarence = document.querySelector("#clarence");
  const pizza = document.querySelector("#pizza");
@@ -127,15 +104,12 @@ window.onload = () => {
  const portal = document.querySelector("#portal");
  const dialogo = document.querySelector("#dialogo");
 
-
  const ui = document.getElementById("ui");
  const respuestaInput = document.getElementById("respuesta");
  const btnResponder = document.getElementById("btnResponder");
 
-
- // 1️⃣ Hablar con Clarence
+ // Hablar con Clarence
  clarence.addEventListener("click", () => {
-
 
    if (estado === "inicio") {
      dialogo.setAttribute("value",
@@ -147,21 +121,20 @@ window.onload = () => {
      estado = "buscandoPizza";
    }
 
-
    else if (estado === "entregoPizza") {
      dialogo.setAttribute("value",
        "Graciaaaas 😍 estaba riquísima.\n" +
        "Ahora dime...\n" +
        "¿Cómo se llaman mis mejores amigos?");
+     
      ui.style.display = "block";
+     respuestaInput.focus();
+
      estado = "pregunta";
    }
-
-
  });
 
-
- // 2️⃣ Coger pizza
+ // Coger pizza
  pizza.addEventListener("click", () => {
    if (estado === "buscandoPizza") {
      pizza.setAttribute("visible", false);
@@ -172,19 +145,14 @@ window.onload = () => {
    }
  });
 
-
- // 3️⃣ Responder pregunta
+ // Responder
  btnResponder.addEventListener("click", () => {
-
 
    let respuesta = respuestaInput.value.toLowerCase();
 
-
    if (estado === "pregunta") {
 
-
      if (respuesta.includes("jeff") && respuesta.includes("sumo")) {
-
 
        dialogo.setAttribute("value",
          "SIIII jiji 😄\n" +
@@ -192,24 +160,19 @@ window.onload = () => {
          "Eres MOLT listo jijiji\n" +
          "Toma esta llave mágica jijiji");
 
-
        ui.style.display = "none";
        llave.setAttribute("visible", true);
        estado = "llave";
 
-
      } else {
        dialogo.setAttribute("value",
          "Mmmmmm nop 😝\n" +
-         "Pista: uno tiene la cabeza cuadrada como el maicra y el otro es un calvillo jijiji.");
+         "Pista: uno tiene cabeza cuadrada y el otro es calvillo.");
      }
    }
-
-
  });
 
-
- // 4️⃣ Coger llave
+ // Llave
  llave.addEventListener("click", () => {
    if (estado === "llave") {
      llave.setAttribute("visible", false);
@@ -220,20 +183,15 @@ window.onload = () => {
    }
  });
 
-
- // 5️⃣ Portal
+ // Portal
  portal.addEventListener("click", () => {
    if (estado === "portal") {
      window.location.href = "mundo2.html";
    }
  });
 
-
 };
 </script>
 
-
 </body>
 </html>
-broo
-
