@@ -43,28 +43,30 @@
 <a-scene>
 
   <!-- Cámara -->
-  <a-entity camera look-controls position="0 1.6 3">
+  <a-entity camera look-controls position="2.918 0.820 5.603">
     <a-cursor></a-cursor>
   </a-entity>
 
   <!-- Mundo 3D -->
-  <a-entity gltf-model="assets/mundo_clarence.glb"
+  <a-entity gltf-model="modelos 3d scaperoom/lowpoly_stylized_ghetto_city_pack.glb"
             position="0 0 0"
-            scale="1 1 1">
+            scale="1.891 3.458 1.888">
   </a-entity>
 
   <!-- Clarence -->
   <a-entity id="clarence"
             gltf-model="clarence_hip_hop_dancing.glb"
-            position="0 0 -3"
-            scale="1 1 1">
+            position="1.801 -0.014 0.692"
+            rotation="-3.396 55.149 4.137"
+            scale="0.397 0.417 0.379">
   </a-entity>
 
   <!-- Pizza -->
   <a-entity id="pizza"
             gltf-model="modelos 3d scaperoom/slice_of_pizza.glb"
-            position="4 0 -4"
-            scale="0.5 0.5 0.5"
+            position="-0.479 -0.034 0.223"
+            rotation="0 0 0"
+            scale="10.326 10.326 10.326"
             visible="false">
   </a-entity>
 
@@ -84,10 +86,12 @@
 
   <!-- Texto diálogo -->
   <a-text id="dialogo"
-          position="0 2 -2"
+          position="2.459 1.110 -0.030"
+          rotation="0 40.126 0"
+          scale="0.425 0.477 0.174"
           align="center"
           width="6"
-          color="black"
+          color="yellow"
           visible="false">
   </a-text>
 
