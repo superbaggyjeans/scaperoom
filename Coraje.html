@@ -39,42 +39,43 @@ body { margin: 0; overflow: hidden; }
  <button id="btnResponder">Responder</button>
 </div>
 
-<a-scene renderer="physicallyCorrectLights: true">
+<a-scene
+  renderer="physicallyCorrectLights: true; colorManagement: true"
+  shadow="type: pcfsoft"
+>
 
-  <!-- 🌞 LUCES -->
+  <!-- LUCES -->
 
-  <!-- Luz ambiental -->
-  <a-entity light="type: ambient; intensity: 1.8; color: #ffffff"></a-entity>
+  <a-entity light="type: ambient; intensity: 2.5; color: #ffffff"></a-entity>
+  <a-entity light="type: hemisphere; intensity: 3; color: #ffffff; groundColor: #ffffff"></a-entity>
+  <a-entity light="type: directional; intensity: 4; castShadow: true" position="10 20 10"></a-entity>
 
-  <!-- Luz direccional (sol) -->
-  <a-entity light="type: directional; intensity: 2; color: #ffffff"
-            position="5 10 5">
-  </a-entity>
-
-  <!-- 🌤️ Fondo -->
+  <!-- Fondo -->
   <a-sky color="#cfe8ff"></a-sky>
 
   <!-- Cámara -->
   <a-entity id="camara"
            camera
            look-controls="pointerLockEnabled: false"
-           wasd-controls="acceleration: 10"
+           wasd-controls="acceleration: 17"
            cursor="rayOrigin: mouse"
-           position="12.432 1.600 12.040">
+           position="12.432 2.445 12.040">
     <a-cursor></a-cursor>
   </a-entity>
 
   <!-- Casa -->
-  <a-entity gltf-model="modelos 3d scaperoom/courage_the_cowardly_dog_house.glb"
+  <a-entity gltf-model="modelos 3d scaperoom/courage_the_cowardly_dog_house(1).glb"
             position="0 -1.000 0"
-            scale="2 2 2">
+            scale="2 2 2"
+            shadow="receive: true; cast: true">
   </a-entity>
 
   <!-- Coraje -->
   <a-entity id="coraje"
             gltf-model="modelos 3d scaperoom/courage_the_cowardly_dog-simple_design_low_poly.glb"
             position="0 0 0"
-            scale="0.5 0.5 0.5">
+            scale="0.5 0.5 0.5"
+            shadow="receive: true; cast: true">
   </a-entity>
 
   <!-- Hueso -->
@@ -82,7 +83,8 @@ body { margin: 0; overflow: hidden; }
             gltf-model="modelos3d_coraje/hueso.glb"
             position="-2 0 1"
             scale="1 1 1"
-            visible="false">
+            visible="false"
+            shadow="receive: true; cast: true">
   </a-entity>
 
   <!-- Amuleto -->
@@ -90,7 +92,8 @@ body { margin: 0; overflow: hidden; }
             gltf-model="modelos3d_coraje/amuleto_magico.glb"
             position="2 0 1"
             scale="0.5 0.5 0.5"
-            visible="false">
+            visible="false"
+            shadow="receive: true; cast: true">
   </a-entity>
 
   <!-- Portal -->
@@ -98,7 +101,8 @@ body { margin: 0; overflow: hidden; }
             gltf-model="modelos3d_coraje/portal_oscuro.glb"
             position="0 0 -4"
             scale="0.5 0.5 0.5"
-            visible="false">
+            visible="false"
+            shadow="receive: true; cast: true">
   </a-entity>
 
   <!-- Texto diálogo -->
