@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mundo Coraje</title>
+
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+<style>
+body { margin: 0; overflow: hidden; }
+
+#ui {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  display: none;
+  z-index: 9999;
+}
+
+#respuesta {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+}
+
+#btnResponder {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+ <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
+ <button id="btnResponder">Responder</button>
+</div>
+
+<a-scene renderer="physicallyCorrectLights: true">
+
+  <!-- 🌞 LUCES -->
+
+  <!-- Luz ambiental -->
+  <a-entity light="type: ambient; intensity: 1.8; color: #ffffff"></a-entity>
+
+  <!-- Luz direccional (sol) -->
+  <a-entity light="type: directional; intensity: 2; color: #ffffff"
+            position="5 10 5">
+  </a-entity>
+
+  <!-- 🌤️ Fondo -->
+  <a-sky color="#cfe8ff"></a-sky>
+
+  <!-- Cámara -->
+  <a-entity id="camara"
+           camera
+           look-controls="pointerLockEnabled: false"
+           wasd-controls="acceleration: 10"
+           cursor="rayOrigin: mouse"
+           position="12.432 1.600 12.040">
+    <a-cursor></a-cursor>
+  </a-entity>
+
+  <!-- Casa -->
+  <a-entity gltf-model="modelos 3d scaperoom/courage_the_cowardly_dog_house.glb"
+            position="0 -1.000 0"
+            scale="2 2 2">
+  </a-entity>
+
+  <!-- Coraje -->
+  <a-entity id="coraje"
+            gltf-model="modelos 3d scaperoom/courage_the_cowardly_dog-simple_design_low_poly.glb"
+            position="0 0 0"
+            scale="0.5 0.5 0.5">
+  </a-entity>
+
+  <!-- Hueso -->
+  <a-entity id="hueso"
+            gltf-model="modelos3d_coraje/hueso.glb"
+            position="-2 0 1"
+            scale="1 1 1"
+            visible="false">
+  </a-entity>
+
+  <!-- Amuleto -->
+  <a-entity id="amuleto"
+            gltf-model="modelos3d_coraje/amuleto_magico.glb"
+            position="2 0 1"
+            scale="0.5 0.5 0.5"
+            visible="false">
+  </a-entity>
+
+  <!-- Portal -->
+  <a-entity id="portal"
+            gltf-model="modelos3d_coraje/portal_oscuro.glb"
+            position="0 0 -4"
+            scale="0.5 0.5 0.5"
+            visible="false">
+  </a-entity>
+
+  <!-- Texto diálogo -->
+  <a-text id="dialogo"
+          position="0 2 -1"
+          align="center"
+          width="6"
+          color="red"
+          visible="false">
+  </a-text>
+
+</a-scene>
+
+<script>
+let estado = "inicio";
+
+window.onload = () => {
+
+ const coraje = document.querySelector("#coraje");
+ const hueso = document.querySelector("#hueso");
+ const amuleto = document.querySelector("#amuleto");
+ const portal = document.querySelector("#portal");
+ const dialogo = document.querySelector("#dialogo");
+
+ const ui = document.getElementById("ui");
+ const respuestaInput = document.getElementById("respuesta");
+ const btnResponder = document.getElementById("btnResponder");
+
+ // Hablar con Coraje
+ coraje.addEventListener("click", () => {
+
+   if (estado === "inicio") {
+     dialogo.setAttribute("value",
+       "¡AAAAAAH! 😱\n" +
+       "Muriel está en peligro...\n" +
+       "Necesito mi hueso mágico.\n" +
+       "¡Encuéntralo rápido!");
+     dialogo.setAttribute("visible", true);
+     hueso.setAttribute("visible", true);
+     estado = "buscarHueso";
+   }
+
+   else if (estado === "entregoHueso") {
+     dialogo.setAttribute("value",
+       "¡Gracias! 🐶\n" +
+       "Ahora dime...\n" +
+       "¿Cómo se llama mi dueña?");
+     
+     ui.style.display = "block";
+     respuestaInput.focus();
+     estado = "pregunta";
+   }
+ });
+
+ // Coger hueso
+ hueso.addEventListener("click", () => {
+   if (estado === "buscarHueso") {
+     hueso.setAttribute("visible", false);
+     dialogo.setAttribute("value",
+       "¡Hueso encontrado! 🦴\n" +
+       "Llévaselo a Coraje.");
+     estado = "entregoHueso";
+   }
+ });
+
+ // Responder
+ btnResponder.addEventListener("click", () => {
+
+   let respuesta = respuestaInput.value.toLowerCase();
+
+   if (estado === "pregunta") {
+
+     if (respuesta.includes("muriel")) {
+
+       dialogo.setAttribute("value",
+         "¡SÍ! 😍\n" +
+         "Muriel es la mejor.\n" +
+         "Toma este amuleto mágico.");
+
+       ui.style.display = "none";
+       amuleto.setAttribute("visible", true);
+       estado = "amuleto";
+
+     } else {
+       dialogo.setAttribute("value",
+         "¡NOOOO! 😨\n" +
+         "Pista: siempre cocina y usa gafas.");
+     }
+   }
+ });
+
+ // Amuleto
+ amuleto.addEventListener("click", () => {
+   if (estado === "amuleto") {
+     amuleto.setAttribute("visible", false);
+     dialogo.setAttribute("value",
+       "¡El portal oscuro se abrió! 🌌");
+     portal.setAttribute("visible", true);
+     estado = "portal";
+   }
+ });
+
+ // Portal
+ portal.addEventListener("click", () => {
+   if (estado === "portal") {
+     window.location.href = "SiguienteNivel.html";
+   }
+ });
+
+};
+</script>
+
+</body>
+</html>
