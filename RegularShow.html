@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mundo Mordecai y Rigby</title>
+
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+<style>
+body { margin:0; overflow:hidden; }
+
+#ui{
+  position:absolute;
+  bottom:20px;
+  width:100%;
+  text-align:center;
+  display:none;
+  z-index:9999;
+}
+
+#btnContinuar{
+  padding:10px 20px;
+  font-size:16px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+  <button id="btnContinuar">Continuar</button>
+</div>
+
+<a-scene>
+
+  <!-- Fondo -->
+  <a-sky color="#87CEEB"></a-sky>
+
+  <!-- Cámara -->
+  <a-entity camera look-controls="pointerLockEnabled:false"
+            wasd-controls="acceleration:10"
+            cursor="rayOrigin:mouse"
+            position="0 1.6 5">
+    <a-cursor></a-cursor>
+  </a-entity>
+
+  <!-- Suelo -->
+  <a-plane rotation="-90 0 0" width="50" height="50" color="#4CAF50"></a-plane>
+
+  <!-- Mordecai -->
+  <a-entity id="mordecai"
+            gltf-model="mordecai.glb"
+            position="-2 0 -3"
+            scale="1 1 1">
+  </a-entity>
+
+  <!-- Rigby -->
+  <a-entity id="rigby"
+            gltf-model="rigby.glb"
+            position="2 0 -3"
+            scale="1 1 1">
+  </a-entity>
+
+  <!-- Cassette -->
+  <a-entity id="cassette"
+            gltf-model="cassette.glb"
+            position="0 0 -6"
+            scale="0.5 0.5 0.5"
+            visible="false">
+  </a-entity>
+
+  <!-- Portal -->
+  <a-entity id="portal"
+            gltf-model="portal.glb"
+            position="0 0 -10"
+            scale="1 1 1"
+            visible="false">
+  </a-entity>
+
+  <!-- Texto -->
+  <a-text id="dialogo"
+          position="0 3 -3"
+          align="center"
+          width="6"
+          color="black"
+          visible="false">
+  </a-text>
+
+</a-scene>
+
+<script>
+
+let estado = "inicio";
+
+window.onload = () => {
+
+const mordecai = document.querySelector("#mordecai");
+const rigby = document.querySelector("#rigby");
+const cassette = document.querySelector("#cassette");
+const portal = document.querySelector("#portal");
+const dialogo = document.querySelector("#dialogo");
+const ui = document.getElementById("ui");
+const btn = document.getElementById("btnContinuar");
+
+// 🐦 Mordecai
+mordecai.addEventListener("click", () => {
+
+  if(estado === "inicio"){
+    dialogo.setAttribute("value",
+      "Bro...\nRigby perdió mi mixtape ochentero.\n" +
+      "Encuentra el cassette por favor.");
+    dialogo.setAttribute("visible", true);
+    cassette.setAttribute("visible", true);
+    estado = "buscandoCassette";
+  }
+
+  else if(estado === "tengoCassette"){
+    dialogo.setAttribute("value",
+      "¡LO ENCONTRASTE!\nAhora habla con Rigby...");
+    dialogo.setAttribute("visible", true);
+  }
+
+});
+
+// 🎵 Encontrar cassette
+cassette.addEventListener("click", () => {
+  if(estado === "buscandoCassette"){
+    cassette.setAttribute("visible", false);
+    dialogo.setAttribute("value",
+      "Cassette encontrado.\nVe con Mordecai.");
+    dialogo.setAttribute("visible", true);
+    estado = "tengoCassette";
+  }
+});
+
+// 🦝 Rigby
+rigby.addEventListener("click", () => {
+
+  if(estado === "tengoCassette"){
+    dialogo.setAttribute("value",
+      "OK OK FUI YO 😭\nPerdón bro...\nTomen este portal.");
+    dialogo.setAttribute("visible", true);
+    portal.setAttribute("visible", true);
+    estado = "portal";
+  }
+
+  else{
+    dialogo.setAttribute("value",
+      "Yo no fui bro 😎");
+    dialogo.setAttribute("visible", true);
+  }
+
+});
+
+// 🌀 Portal
+portal.addEventListener("click", () => {
+  if(estado === "portal"){
+    window.location.href = "mundo3.html";
+  }
+});
+
+}
+</script>
+
+</body>
+</html>
