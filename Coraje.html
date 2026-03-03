@@ -45,7 +45,6 @@ body { margin: 0; overflow: hidden; }
 >
 
   <!-- LUCES -->
-
   <a-entity light="type: ambient; intensity: 2.5; color: #ffffff"></a-entity>
   <a-entity light="type: hemisphere; intensity: 3; color: #ffffff; groundColor: #ffffff"></a-entity>
   <a-entity light="type: directional; intensity: 4; castShadow: true" position="10 20 10"></a-entity>
@@ -70,14 +69,12 @@ body { margin: 0; overflow: hidden; }
             shadow="receive: true; cast: true">
   </a-entity>
 
-  <!-- Personaje enfadado que pide buscar a Coraje -->
+  <!-- Personaje enfadado (Eustace) -->
   <a-entity id="personaje"
             gltf-model="modelos 3d scaperoom/eustace_bagge(2).glb"
             position="4.04143 1.27685 3.56224"
             scale="0.239 0.239 0.239"
             shadow="receive: true; cast: true">
-            
-  </a-entity>
   </a-entity>
 
   <!-- Coraje -->
@@ -143,9 +140,12 @@ window.onload = () => {
   const respuestaInput = document.getElementById("respuesta");
   const btnResponder = document.getElementById("btnResponder");
 
-  // Hablar con personaje enfadado
+  // Hablar con personaje enfadado (Eustace)
   personaje.addEventListener("click", () => {
     if (estado === "inicio") {
+      // Posición encima del personaje
+      const pos = personaje.getAttribute("position");
+      dialogo.setAttribute("position", `${pos.x} ${pos.y + 2} ${pos.z}`);
       dialogo.setAttribute("value",
         "¡Estoy enfadado con Coraje!\n" +
         "¡Búscalo y tráemelo aquí!");
