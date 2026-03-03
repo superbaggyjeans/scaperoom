@@ -38,15 +38,20 @@ body { margin:0; overflow:hidden; }
   <a-sky color="#87CEEB"></a-sky>
 
   <!-- Cámara -->
-  <a-entity camera look-controls="pointerLockEnabled:false"
-            wasd-controls="acceleration:10"
-            cursor="rayOrigin:mouse"
-            position="0 1.6 5">
+  <a-entity camera="" look-controls="" wasd-controls="acceleration: 10" cursor="rayOrigin: mouse" position="-15.028 1.11087 -29.827228228019855" rotation="-2.292 -165.0118449976771 0" raycaster="direction: -0.895 -0.401 -0.196; origin: -5.243 5.881 -21.719; useWorldCoordinates: true" data-aframe-inspector-original-camera="">
+    <a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
+  </a-entity>              
     <a-cursor></a-cursor>
   </a-entity>
 
   <!-- Suelo -->
-  <a-plane rotation="-90 0 0" width="50" height="50" color="#4CAF50"></a-plane>
+ <a-plane rotation="-90 0 0" width="50" height="50" color="#" material="" geometry=""></a-plane>
+
+
+  <!-- Mundo 3D -->
+  <a-entity gltf-model="modelos 3d scaperoom/horror_house_scene_nature_tree_and_environment.glb" position="0 -0.11578 0" scale="1.891 3.458 1.888">
+  </a-entity>
+  </a-entity>
 
   <!-- Mordecai -->
   <a-entity id="mordecai"
