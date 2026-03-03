@@ -70,6 +70,14 @@ body { margin: 0; overflow: hidden; }
             shadow="receive: true; cast: true">
   </a-entity>
 
+  <!-- Personaje enfadado que pide buscar a Coraje -->
+  <a-entity id="personaje"
+            gltf-model="modelos 3d scaperoom/eustace_bagge(1).glb"
+            position="3 0 3"
+            scale="1 1 1"
+            shadow="receive: true; cast: true">
+  </a-entity>
+
   <!-- Coraje -->
   <a-entity id="coraje"
             gltf-model="modelos 3d scaperoom/courage_the_cowardly_dog-simple_design_low_poly.glb"
@@ -89,7 +97,7 @@ body { margin: 0; overflow: hidden; }
 
   <!-- Amuleto -->
   <a-entity id="amuleto"
-            gltf-model="modelos3d_coraje/amuleto_magico.glb"
+            gltf-model="modelos 3d scaperoom/flint_and_steel_minecraft.glb"
             position="2 0 1"
             scale="0.5 0.5 0.5"
             visible="false"
@@ -98,7 +106,7 @@ body { margin: 0; overflow: hidden; }
 
   <!-- Portal -->
   <a-entity id="portal"
-            gltf-model="modelos3d_coraje/portal_oscuro.glb"
+            gltf-model="modelos 3d scaperoom/nether_portal.glb"
             position="0 0 -4"
             scale="0.5 0.5 0.5"
             visible="false"
@@ -118,99 +126,118 @@ body { margin: 0; overflow: hidden; }
 
 <script>
 let estado = "inicio";
+let corajeCorre = false;
 
 window.onload = () => {
 
- const coraje = document.querySelector("#coraje");
- const hueso = document.querySelector("#hueso");
- const amuleto = document.querySelector("#amuleto");
- const portal = document.querySelector("#portal");
- const dialogo = document.querySelector("#dialogo");
+  const personaje = document.querySelector("#personaje");
+  const coraje = document.querySelector("#coraje");
+  const hueso = document.querySelector("#hueso");
+  const amuleto = document.querySelector("#amuleto");
+  const portal = document.querySelector("#portal");
+  const dialogo = document.querySelector("#dialogo");
 
- const ui = document.getElementById("ui");
- const respuestaInput = document.getElementById("respuesta");
- const btnResponder = document.getElementById("btnResponder");
+  const ui = document.getElementById("ui");
+  const respuestaInput = document.getElementById("respuesta");
+  const btnResponder = document.getElementById("btnResponder");
 
- // Hablar con Coraje
- coraje.addEventListener("click", () => {
+  // Hablar con personaje enfadado
+  personaje.addEventListener("click", () => {
+    if (estado === "inicio") {
+      dialogo.setAttribute("value",
+        "¡Estoy enfadado con Coraje!\n" +
+        "¡Búscalo y tráemelo aquí!");
+      dialogo.setAttribute("visible", true);
+      estado = "buscarCoraje";
+    }
+  });
 
-   if (estado === "inicio") {
-     dialogo.setAttribute("value",
-       "¡AAAAAAH! 😱\n" +
-       "Muriel está en peligro...\n" +
-       "Necesito mi hueso mágico.\n" +
-       "¡Encuéntralo rápido!");
-     dialogo.setAttribute("visible", true);
-     hueso.setAttribute("visible", true);
-     estado = "buscarHueso";
-   }
+  // Clic en Coraje - se mueve a otro lugar (corre)
+  coraje.addEventListener("click", () => {
+    if (estado === "buscarCoraje" && !corajeCorre) {
+      dialogo.setAttribute("value",
+        "¡Ja! ¡Coraje se ha escapado! Corre a otro sitio...");
+      dialogo.setAttribute("visible", true);
 
-   else if (estado === "entregoHueso") {
-     dialogo.setAttribute("value",
-       "¡Gracias! 🐶\n" +
-       "Ahora dime...\n" +
-       "¿Cómo se llama mi dueña?");
-     
-     ui.style.display = "block";
-     respuestaInput.focus();
-     estado = "pregunta";
-   }
- });
+      // Cambiamos posición de Coraje (simula que corre)
+      coraje.setAttribute("position", "5 0 -3");
 
- // Coger hueso
- hueso.addEventListener("click", () => {
-   if (estado === "buscarHueso") {
-     hueso.setAttribute("visible", false);
-     dialogo.setAttribute("value",
-       "¡Hueso encontrado! 🦴\n" +
-       "Llévaselo a Coraje.");
-     estado = "entregoHueso";
-   }
- });
+      corajeCorre = true;
+      estado = "corajeEscapado";
+    } else if (estado === "corajeEscapado" && corajeCorre) {
+      dialogo.setAttribute("value",
+        "¡Ahora sí! Has atrapado a Coraje.\n" +
+        "Aquí está su hueso mágico.");
+      dialogo.setAttribute("visible", true);
 
- // Responder
- btnResponder.addEventListener("click", () => {
+      hueso.setAttribute("visible", true);
+      estado = "buscarHueso";
+    }
+  });
 
-   let respuesta = respuestaInput.value.toLowerCase();
+  // Coger hueso
+  hueso.addEventListener("click", () => {
+    if (estado === "buscarHueso") {
+      hueso.setAttribute("visible", false);
+      dialogo.setAttribute("value",
+        "¡Hueso encontrado! 🦴\n" +
+        "Llévaselo a Coraje.");
+      estado = "entregoHueso";
+    }
+  });
 
-   if (estado === "pregunta") {
+  // Clic en Coraje después de tener hueso
+  coraje.addEventListener("click", () => {
+    if (estado === "entregoHueso") {
+      dialogo.setAttribute("value",
+        "¡Gracias! 🐶\n" +
+        "Ahora dime...\n" +
+        "¿Cómo se llama mi dueña?");
+      dialogo.setAttribute("visible", true);
+      ui.style.display = "block";
+      respuestaInput.focus();
+      estado = "pregunta";
+    }
+  });
 
-     if (respuesta.includes("muriel")) {
+  // Responder pregunta
+  btnResponder.addEventListener("click", () => {
+    let respuesta = respuestaInput.value.toLowerCase();
 
-       dialogo.setAttribute("value",
-         "¡SÍ! 😍\n" +
-         "Muriel es la mejor.\n" +
-         "Toma este amuleto mágico.");
+    if (estado === "pregunta") {
+      if (respuesta.includes("muriel")) {
+        dialogo.setAttribute("value",
+          "¡SÍ! 😍\n" +
+          "Muriel es la mejor.\n" +
+          "Toma este amuleto mágico.");
+        ui.style.display = "none";
+        amuleto.setAttribute("visible", true);
+        estado = "amuleto";
+      } else {
+        dialogo.setAttribute("value",
+          "¡NOOOO! 😨\n" +
+          "Pista: siempre cocina y usa gafas.");
+      }
+    }
+  });
 
-       ui.style.display = "none";
-       amuleto.setAttribute("visible", true);
-       estado = "amuleto";
+  // Clic en amuleto
+  amuleto.addEventListener("click", () => {
+    if (estado === "amuleto") {
+      amuleto.setAttribute("visible", false);
+      dialogo.setAttribute("value",
+        "¡El portal oscuro se abrió! 🌌");
+      portal.setAttribute("visible", true);
+      estado = "portal";
+    }
+  });
 
-     } else {
-       dialogo.setAttribute("value",
-         "¡NOOOO! 😨\n" +
-         "Pista: siempre cocina y usa gafas.");
-     }
-   }
- });
-
- // Amuleto
- amuleto.addEventListener("click", () => {
-   if (estado === "amuleto") {
-     amuleto.setAttribute("visible", false);
-     dialogo.setAttribute("value",
-       "¡El portal oscuro se abrió! 🌌");
-     portal.setAttribute("visible", true);
-     estado = "portal";
-   }
- });
-
- // Portal
- portal.addEventListener("click", () => {
-   if (estado === "portal") {
-     window.location.href = "SiguienteNivel.html";
-   }
- });
+  // Clic en portal
+  portal.addEventListener("click", () => {
+    if (estado === "portal") {
+      window.location.href = "SiguienteNivel.html";
+    }
+  });
 
 };
 </script>
