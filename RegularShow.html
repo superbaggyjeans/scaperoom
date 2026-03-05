@@ -9,162 +9,180 @@
 <style>
 body { margin:0; overflow:hidden; }
 
-#ui{
+#uiMensaje{
   position:absolute;
-  bottom:20px;
+  bottom:30px;
   width:100%;
   text-align:center;
-  display:none;
+  font-family:Arial;
+  font-size:18px;
+  color:white;
+  text-shadow:2px 2px 4px black;
   z-index:9999;
-}
-
-#btnContinuar{
-  padding:10px 20px;
-  font-size:16px;
-  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div id="ui">
-  <button id="btnContinuar">Continuar</button>
-</div>
+<div id="uiMensaje"></div>
 
 <a-scene>
 
-  <!-- Fondo -->
-  <a-sky color="#87CEEB"></a-sky>
+  <!-- CIELO OSCURO -->
+  <a-sky color="#0b0f19"></a-sky>
 
-  <!-- Cámara -->
-  <a-entity camera="" look-controls="" wasd-controls="acceleration: 10" cursor="rayOrigin: mouse" position="-15.028 1.11087 -29.827228228019855" rotation="-2.292 -165.0118449976771 0" raycaster="direction: -0.895 -0.401 -0.196; origin: -5.243 5.881 -21.719; useWorldCoordinates: true" data-aframe-inspector-original-camera="">
+  <!-- LUZ TENEBROSA -->
+  <a-light type="ambient" intensity="0.4"></a-light>
+  <a-light type="directional" position="0 10 -5" intensity="0.6"></a-light>
+
+  <!-- CÁMARA -->
+  <a-entity camera="" look-controls="" wasd-controls="acceleration: 15" position="-17.1644 1.15568 -34.59286" rotation="-14.553127996322917 -72.19268218648378 0" data-aframe-inspector-original-camera="">
     <a-cursor material="" raycaster="" cursor="" geometry=""></a-cursor>
-  </a-entity>              
-    <a-cursor></a-cursor>
   </a-entity>
 
-  <!-- Suelo -->
- <a-plane rotation="-90 0 0" width="50" height="50" color="#" material="" geometry=""></a-plane>
 
+  <!-- SUELO -->
+  <a-plane rotation="-90 0 0"  potiwidth="100" height="100" color="#1a1a1a" material="" geometry=""></a-plane>
 
-  <!-- Mundo 3D -->
-  <a-entity gltf-model="modelos 3d scaperoom/horror_house_scene_nature_tree_and_environment.glb" position="0 -0.11578 0" scale="1.891 3.458 1.888">
-  </a-entity>
-  </a-entity>
-
-  <!-- Mordecai -->
- <a-entity id="mordecai" gltf-model="modelos 3d scaperoom/mordecai_fusionfall_heroes.glb" position="-11.221 -0.088 -30.051" scale="0.378 0.378 0.378" rotation="-7.87 -118.87556446035781 0.4194051060357626">
-  </a-entity>
-            
+  <!-- BOSQUE -->
+  <a-entity gltf-model="modelos 3d scaperoom/horror_house_scene_nature_tree_and_environment.glb"
+            position="0 0 0"
+            scale="2 2 2">
   </a-entity>
 
-  <!-- Rigby -->
+  <!-- MORDECAI -->
+ <a-entity id="mordecai" gltf-model="modelos 3d scaperoom/mordecai_fusionfall_heroes.glb" position="-11.70791 0.02062 -32.18633" rotation="1.0559612164261072 -108.47638047873338 -1.7904931097838226" scale="0.26782 0.26106 0.22086">
+  </a-entity>
+
+  <!-- RIGBY -->
   <a-entity id="rigby"
-            gltf-model="rigby.glb"
-            position="2 0 -3"
+            gltf-model="modelos 3d scaperoom/rigby.glb"
+            position="4 0 -8"
             scale="1 1 1">
   </a-entity>
 
-  <!-- Cassette -->
+  <!-- SLENDERMAN -->
+  <a-entity id="slenderman"
+            gltf-model="modelos 3d scaperoom/slenderman.glb"
+            position="0 0 -25"
+            scale="2 2 2"
+            visible="false">
+  </a-entity>
+
+  <!-- CASSETTE -->
   <a-entity id="cassette"
             gltf-model="cassette.glb"
-            position="0 0 -6"
+            position="0 1 -24"
             scale="0.5 0.5 0.5"
             visible="false">
   </a-entity>
 
-  <!-- Portal -->
+  <!-- PORTAL -->
   <a-entity id="portal"
             gltf-model="portal.glb"
-            position="0 0 -10"
-            scale="1 1 1"
+            position="0 0 -35"
+            scale="2 2 2"
             visible="false">
   </a-entity>
-
-  <!-- Texto -->
-  <a-text id="dialogo"
-          position="0 3 -3"
-          align="center"
-          width="6"
-          color="black"
-          visible="false">
-  </a-text>
 
 </a-scene>
 
 <script>
 
 let estado = "inicio";
+let tengoCassette = false;
+
+const mensajeUI = document.getElementById("uiMensaje");
+
+function mostrarMensaje(texto){
+  mensajeUI.innerText = texto;
+  setTimeout(() => mensajeUI.innerText = "", 5000);
+}
 
 window.onload = () => {
 
 const mordecai = document.querySelector("#mordecai");
 const rigby = document.querySelector("#rigby");
+const slenderman = document.querySelector("#slenderman");
 const cassette = document.querySelector("#cassette");
 const portal = document.querySelector("#portal");
-const dialogo = document.querySelector("#dialogo");
-const ui = document.getElementById("ui");
-const btn = document.getElementById("btnContinuar");
 
-// 🐦 Mordecai
+// 🐦 MORDECAI
 mordecai.addEventListener("click", () => {
 
   if(estado === "inicio"){
-    dialogo.setAttribute("value",
-      "Bro...\nRigby perdió mi mixtape ochentero.\n" +
-      "Encuentra el cassette por favor.");
-    dialogo.setAttribute("visible", true);
-    cassette.setAttribute("visible", true);
-    estado = "buscandoCassette";
+    mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero. Ve a preguntarle.");
+    estado = "hablarRigby";
   }
 
-  else if(estado === "tengoCassette"){
-    dialogo.setAttribute("value",
-      "¡LO ENCONTRASTE!\nAhora habla con Rigby...");
-    dialogo.setAttribute("visible", true);
-  }
-
-});
-
-// 🎵 Encontrar cassette
-cassette.addEventListener("click", () => {
-  if(estado === "buscandoCassette"){
-    cassette.setAttribute("visible", false);
-    dialogo.setAttribute("value",
-      "Cassette encontrado.\nVe con Mordecai.");
-    dialogo.setAttribute("visible", true);
-    estado = "tengoCassette";
-  }
-});
-
-// 🦝 Rigby
-rigby.addEventListener("click", () => {
-
-  if(estado === "tengoCassette"){
-    dialogo.setAttribute("value",
-      "OK OK FUI YO 😭\nPerdón bro...\nTomen este portal.");
-    dialogo.setAttribute("visible", true);
+  else if(estado === "volverMordecai" && tengoCassette){
+    mostrarMensaje("Mordecai: ¡¡¡MI MIXTAPE!!! 😭🔥 Eres un héroe bro. Toma esta llave.");
     portal.setAttribute("visible", true);
     estado = "portal";
   }
 
-  else{
-    dialogo.setAttribute("value",
-      "Yo no fui bro 😎");
-    dialogo.setAttribute("visible", true);
+});
+
+// 🦝 RIGBY
+rigby.addEventListener("click", () => {
+
+  if(estado === "hablarRigby"){
+    mostrarMensaje(
+      "Rigby: BROOO 😭 Yo lo tenía...\n" +
+      "Pero se lo di a un tipo muy largo...\n" +
+      "Blanco...\nPelado...\nCon tentáculos...\n\n" +
+      "Creo que sigue en el bosque 💀"
+    );
+
+    slenderman.setAttribute("visible", true);
+    estado = "buscarSlenderman";
   }
 
 });
 
-// 🌀 Portal
+// 👁 SLENDERMAN
+slenderman.addEventListener("click", () => {
+
+  if(estado === "buscarSlenderman"){
+
+    mostrarMensaje("Slenderman: ........\n\n(tira el cassette al suelo)\n\n*empieza a bailar inquietantemente*");
+
+    cassette.setAttribute("visible", true);
+    tengoCassette = true;
+    estado = "volverMordecai";
+
+    // 🔥 BAILE ABSURDO CREEPY
+    slenderman.setAttribute("animation__giro",
+      "property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear");
+
+    slenderman.setAttribute("animation__salto",
+      "property: position; dir: alternate; dur: 500; loop: true; to: 0 2 -25");
+  }
+
+});
+
+// 🎵 RECOGER CASSETTE
+cassette.addEventListener("click", () => {
+
+  if(tengoCassette){
+    cassette.setAttribute("visible", false);
+    mostrarMensaje("Has recogido el mixtape. Devuélveselo al pajarraco azul.");
+  }
+
+});
+
+// 🌀 PORTAL
 portal.addEventListener("click", () => {
+
   if(estado === "portal"){
     window.location.href = "mundo3.html";
   }
+
 });
 
 }
+
 </script>
 
 </body>
