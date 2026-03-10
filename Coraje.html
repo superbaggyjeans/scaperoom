@@ -146,7 +146,7 @@ const pos=personaje.getAttribute("position");
 
 dialogo.setAttribute("position",`${pos.x} ${pos.y+2.2} ${pos.z}`);
 dialogo.setAttribute("value",
-"¡Gracias por encontrar a Coraje!\nSabía que podía confiar en ti.");
+"¡Gracias por encontrar a Coraje!\nahora ya te puedes ir de aqui, toma esto y vete al portal");
 dialogo.setAttribute("visible",true);
 
 estado="entregoHueso"; // ahora puedes hacer la pregunta
@@ -209,7 +209,7 @@ estado="pregunta";
 // Respuesta
 btnResponder.addEventListener("click",()=>{
 
-let respuesta=respuestaInput.value.toLowerCase();
+let respuesta=respuestaInput.value.toLowerCase(); 
 
 if(estado==="pregunta"){
 
