@@ -5,6 +5,7 @@
 <title>Mundo Mordecai y Rigby</title>
 
 <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
 
 <style>
 body { margin:0; overflow:hidden; }
@@ -29,86 +30,93 @@ body { margin:0; overflow:hidden; }
 
 <a-scene>
 
-  <!-- CIELO TENEBROSO -->
+  <!-- CIELO -->
   <a-sky color="#0b0f19"></a-sky>
 
-  <!-- LUZ -->
+  <!-- LUCES -->
   <a-light type="ambient" intensity="0.4"></a-light>
   <a-light type="directional" position="0 10 -5" intensity="0.6"></a-light>
 
   <!-- CÁMARA -->
   <a-entity id="camara"
-  camera
-  look-controls
-  wasd-controls="acceleration:6.5"
-  cursor="rayOrigin: mouse"
-  raycaster="objects: .clickable"
-  position="-18.078 0.717 -33.910"
-  rotation="0 -96.355 0">
-
+    camera
+    look-controls
+    wasd-controls="acceleration:6.5"
+    cursor="rayOrigin: mouse"
+    raycaster="objects: .clickable"
+    position="-18.078 0.717 -33.910"
+    rotation="0 -96.355 0">
     <a-cursor></a-cursor>
   </a-entity>
 
   <!-- SUELO -->
-  <a-plane rotation="-90 0 0" width="100" height="100" color="#1a1a1a"></a-plane>
+  <a-plane rotation="-90 0 0" position="0 -1.185 0" width="100" height="100" color="#1a1a1a"></a-plane>
 
   <!-- BOSQUE -->
   <a-entity gltf-model="modelos 3d scaperoom/horror_house_scene_nature_tree_and_environment.glb"
-            position="0 0 0"
-            scale="2 2 2">
+    position="0 0 0"
+    scale="2 2 2">
   </a-entity>
 
   <!-- MORDECAI -->
   <a-entity id="mordecai"
-            class="clickable"
-            gltf-model="modelos 3d scaperoom/mordecai_fusionfall_heroes.glb"
-            position="-11.70791 0.02062 -32.18633"
-            rotation="1.0559 -108.476 -1.79"
-            scale="0.26782 0.26106 0.22086">
+    class="clickable"
+    gltf-model="modelos 3d scaperoom/mordecai_fusionfall_heroes.glb"
+    position="-11.70791 0.02062 -32.18633"
+    rotation="1.0559 -108.476 -1.79"
+    scale="0.26782 0.26106 0.22086">
   </a-entity>
 
   <!-- RIGBY -->
   <a-entity id="rigby"
-            class="clickable"
-            gltf-model="modelos 3d scaperoom/rigby_3d.glb"
-            position="-5.77872 0.48316 -31.93874"
-            rotation="0 -111 0"
-            scale="0.17673 0.17673 0.17673">
+    class="clickable"
+    gltf-model="modelos 3d scaperoom/rigby_3d.glb"
+    position="-5.77872 0.48316 -31.93874"
+    rotation="0 -111 0"
+    scale="0.17673 0.17673 0.17673">
   </a-entity>
 
-  <!-- SLENDERMAN -->
+  <!-- SLENDERMAN (modelo grande) -->
   <a-entity id="slenderman"
-            class="clickable"
-            gltf-model="modelos 3d scaperoom/slender_fortress_old_slenderman_rig.glb"
-            position="0.43983 -0.02471 -43.58557"
-            rotation="0 -56.346 0"
-            scale="0.59726 0.59726 0.59726"
-            visible="false">
+    gltf-model="modelos 3d scaperoom/Hip Hop Dancing.glb"
+    animation-mixer="clip:*"
+    position="0.991 0.057 -43.438"
+    rotation="0 -56.346 0"
+    scale="100.00 100.00 100.00"
+    visible="false">
   </a-entity>
+
+  <!-- HITBOX INVISIBLE DE SLENDERMAN -->
+  <a-box id="slendermanHit" 
+         class="clickable"
+         position="0.991 0.057 -43.438"
+         scale="100 100 100"
+         opacity="0"
+         visible="false">
+  </a-box>
 
   <!-- CASSETTE -->
   <a-entity id="cassette"
-            class="clickable"
-            gltf-model="modelos 3d scaperoom/music_cassette.glb"
-            position="0.537 0.060 -42.955"
-            scale="2.655 8.599 8.469"
-            visible="false">
+    class="clickable"
+    gltf-model="modelos 3d scaperoom/music_cassette.glb"
+    position="0.537 0.060 -42.955"
+    scale="2.655 8.599 8.469"
+    visible="false">
   </a-entity>
 
   <!-- PORTAL -->
   <a-entity id="portal"
-            class="clickable"
-            gltf-model="modelos 3d scaperoom/green_portal.glb"
-            position="-14.378 3.211 -30.462"
-            rotation="-89.186 1.199 -8.979"
-            scale="8.968 10.261 13.971"
-            visible="false">
+    class="clickable"
+    gltf-model="modelos 3d scaperoom/green_portal.glb"
+    position="-14.378 3.211 -30.462"
+    rotation="-89.186 1.199 -8.979"
+    scale="8.968 10.261 13.971"
+    visible="false">
   </a-entity>
 
 </a-scene>
 
 <script>
-
 let estado = "inicio";
 let tengoCassette = false;
 
@@ -116,116 +124,89 @@ const mensajeUI = document.getElementById("uiMensaje");
 
 function mostrarMensaje(texto){
   mensajeUI.innerText = texto;
-  setTimeout(() => mensajeUI.innerText = "", 5000);
+  setTimeout(()=>{
+    mensajeUI.innerText="";
+  },5000)
 }
 
 window.onload = () => {
 
-const mordecai = document.querySelector("#mordecai");
-const rigby = document.querySelector("#rigby");
-const slenderman = document.querySelector("#slenderman");
-const cassette = document.querySelector("#cassette");
-const portal = document.querySelector("#portal");
+  const mordecai = document.querySelector("#mordecai");
+  const rigby = document.querySelector("#rigby");
+  const slenderman = document.querySelector("#slenderman");
+  const slendermanHit = document.querySelector("#slendermanHit");
+  const cassette = document.querySelector("#cassette");
+  const portal = document.querySelector("#portal");
 
-// OBJETIVO INICIAL
-mostrarMensaje("Objetivo: Habla con Mordecai");
+  // OBJETIVO INICIAL
+  mostrarMensaje("Objetivo: Habla con Mordecai");
 
+  // MORDECAI
+  mordecai.addEventListener("click", () => {
+    if(estado === "inicio"){
+      mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero. Ve a preguntarle.");
+      setTimeout(()=>{
+        mostrarMensaje("Objetivo: Entra dentro y habla con Rigby");
+      },4000)
+      estado = "hablarRigby";
+    } else if(estado === "volverMordecai" && tengoCassette){
+      mostrarMensaje("Mordecai: ¡¡¡MI MIXTAPE!!! 😭🔥 Eres un héroe bro. Toma esta llave.");
+      portal.setAttribute("visible",true);
+      estado="portal";
+    }
+  });
 
-// MORDECAI
-mordecai.addEventListener("click", () => {
+  // RIGBY
+  rigby.addEventListener("click",()=>{
+    if(estado==="hablarRigby"){
+      mostrarMensaje(
+        "Rigby: BROOO 😭 Yo lo tenía...\n"+
+        "Pero se lo di a un tipo muy largo...\n"+
+        "Blanco...\nPelado...\nCon tentáculos...\n\n"+
+        "Creo que sigue en el bosque 💀"
+      );
 
-  if(estado === "inicio"){
+      // hacemos visible el modelo y el hitbox
+      slenderman.setAttribute("visible",true);
+      slendermanHit.setAttribute("visible",true);
 
-    mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero. Ve a preguntarle.");
+      setTimeout(()=>{
+        mostrarMensaje("Objetivo: Busca al tipo largo, calvo y blanco");
+      },500);
 
-    setTimeout(() => {
-      mostrarMensaje("Objetivo: Entra dentro y habla con Rigby");
-    }, 4000);
+      estado="buscarSlenderman";
+    }
+  });
 
-    estado = "hablarRigby";
-  }
+  // SLENDERMAN (clic usando el hitbox)
+  slendermanHit.addEventListener("click",()=>{
+    if(estado==="buscarSlenderman"){
+      mostrarMensaje("Slenderman: ........\n\n(tira el cassette al suelo)\n\n*empieza a bailar inquietantemente*");
+      cassette.setAttribute("visible",true);
+      tengoCassette=true;
+      estado="volverMordecai";
 
-  else if(estado === "volverMordecai" && tengoCassette){
+      // opcional: ya que interactuó, desactivamos el hitbox
+      slendermanHit.setAttribute("visible",false);
+    }
+  });
 
-    mostrarMensaje("Mordecai: ¡¡¡MI MIXTAPE!!! 😭🔥 Eres un héroe bro. Toma esta llave.");
+  // CASSETTE
+  cassette.addEventListener("click",()=>{
+    if(tengoCassette){
+      cassette.setAttribute("visible",false);
+      mostrarMensaje("Has recogido el mixtape. Devuélveselo al pajarraco azul.");
+    }
+  });
 
-    portal.setAttribute("visible", true);
-    estado = "portal";
-  }
-
-});
-
-
-// RIGBY
-rigby.addEventListener("click", () => {
-
-  if(estado === "hablarRigby"){
-
-    mostrarMensaje(
-      "Rigby: BROOO 😭 Yo lo tenía...\n" +
-      "Pero se lo di a un tipo muy largo...\n" +
-      "Blanco...\nPelado...\nCon tentáculos...\n\n" +
-      "Creo que sigue en el bosque 💀"
-    );
-
-    slenderman.setAttribute("visible", true);
-
-    setTimeout(() => {
-      mostrarMensaje("Objetivo: Busca al tipo largo, calvo y blanco");
-    }, 5000);
-
-    estado = "buscarSlenderman";
-  }
-
-});
-
-
-// SLENDERMAN
-slenderman.addEventListener("click", () => {
-
-  if(estado === "buscarSlenderman"){
-
-    mostrarMensaje("Slenderman: ........\n\n(tira el cassette al suelo)\n\n*empieza a bailar inquietantemente*");
-
-    cassette.setAttribute("visible", true);
-    tengoCassette = true;
-    estado = "volverMordecai";
-
-    // BAILE CREEPY
-    slenderman.setAttribute("animation__giro",
-      "property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear");
-
-    slenderman.setAttribute("animation__salto",
-      "property: position; dir: alternate; dur: 500; loop: true; to: 0 2 -25");
-  }
-
-});
-
-
-// RECOGER CASSETTE
-cassette.addEventListener("click", () => {
-
-  if(tengoCassette){
-
-    cassette.setAttribute("visible", false);
-
-    mostrarMensaje("Has recogido el mixtape. Devuélveselo al pajarraco azul.");
-  }
-
-});
-
-
-// PORTAL
-portal.addEventListener("click", () => {
-
-  if(estado === "portal"){
-    window.location.href = "mundo3.html";
-  }
-
-});
+  // PORTAL
+  portal.addEventListener("click",()=>{
+    if(estado==="portal"){
+      window.location.href="mundo3.html";
+    }
+  });
 
 }
-
 </script>
 
 </body>
