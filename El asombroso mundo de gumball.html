@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>El Asombroso Mundo de Gumball</title>
+
+<!-- AFRAME -->
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+<style>
+body { margin:0; overflow:hidden; }
+#uiMensaje{
+  position:absolute;
+  bottom:30px;
+  width:100%;
+  text-align:center;
+  font-family:Arial;
+  font-size:18px;
+  color:white;
+  text-shadow:2px 2px 4px black;
+  z-index:9999;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="uiMensaje"></div>
+
+<a-scene>
+
+  <!-- CIELO -->
+  <a-sky color="#87CEEB"></a-sky>
+
+  <!-- LUCES -->
+  <a-light type="ambient" intensity="0.5"></a-light>
+  <a-light type="directional" position="0 10 -5" intensity="0.8"></a-light>
+
+  <!-- JUGADOR -->
+  <a-entity id="player" position="2.978 3.396 9.395">
+    <a-entity camera look-controls wasd-controls="acceleration:10">
+      <a-cursor></a-cursor>
+    </a-entity>
+  </a-entity>
+
+  <!-- SUELO -->
+  <a-plane rotation="-90 0 0" width="100" height="100" color="#1a1a1a"></a-plane>
+
+  <!-- MAPA -->
+  <a-entity id="mapa"
+    gltf-model="modelos 3d scaperoom/amzing_world_of_gumball_house_custom_made.glb"
+    position="0 2.309 0"
+    scale="1 1 1">
+  </a-entity>
+
+  <!-- NPCs -->
+  <a-entity id="npc1" 
+            gltf-model="modelos 3d scaperoom/gumball.glb" 
+            position="-1.470 2.274 1.658" 
+            scale="200 200 200"
+            rotation="85.185 -119.03 -143.79">
+  </a-entity>
+
+  <a-entity id="npc2" 
+            gltf-model="" 
+            position="3 0 -5" 
+            scale="1 1 1"
+            rotation="0 180 0">
+  </a-entity>
+
+  <!-- PORTAL -->
+  <a-entity id="portal" 
+            gltf-model="" 
+            position="0 0 -10" 
+            scale="1 1 1" 
+            visible="true">
+  </a-entity>
+
+</a-scene>
+
+<script>
+const mensajeUI = document.getElementById("uiMensaje");
+
+function mostrarMensaje(texto){
+  mensajeUI.innerText = texto;
+  setTimeout(()=>mensajeUI.innerText="",4000);
+}
+
+window.onload = () => {
+  const portal = document.querySelector("#portal");
+  const gumball = document.querySelector("#npc1");
+
+  mostrarMensaje("Explora el mundo. Haz lo que te pidan los personajes, encuentra la llave y ve al siguiente mundo.");
+
+  // Evento portal
+  portal.addEventListener("click", () => {
+    mostrarMensaje("Entrando al siguiente mundo...");   
+    setTimeout(()=>{ window.location.href="siguiente_mundo.html"; },1500);
+  });
+
+  // Evento click en Gumball
+  gumball.addEventListener("click", () => {
+    mostrarMensaje("Gumball se pone de pie!");
+    
+    // Animación de rotación para ponerse recto
+    gumball.setAttribute("animation", {
+      property: "rotation",
+      to: "0 0 0",
+      dur: 1000,
+      easing: "easeOutQuad"
+    });
+  });
+}
+</script>
+
+</body>
+</html>
