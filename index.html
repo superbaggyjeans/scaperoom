@@ -1,144 +1,224 @@
 <!DOCTYPE html>
-<!-- init 3 -->
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Mundos Cruzados</title>
+<meta charset="UTF-8">
+<title>Mundos Cruzados - Cartoon Style</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        color: #fff;
+    }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #000000, #ffffff);
-            color: #000;
-        }
+    /* Loading Screen */
+    .loading-screen {
+        position: fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:#000;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        z-index:1000;
+        color:#fff;
+        font-size:2rem;
+    }
 
-        .card {
-            background: #ffffff;
-            max-width: 850px;
-            padding: 50px;
-            border-radius: 25px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
+    .loading-bar-container {
+        width: 60%;
+        height: 30px;
+        border: 3px solid #fff;
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #222;
+    }
 
-        .logo {
-            display: inline-flex;
-            margin-bottom: 25px;
-        }
+    .loading-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ffea00, #ff5500);
+        animation: loadBar 4s linear forwards;
+    }
 
-        .logo div {
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
+    @keyframes loadBar {
+        0% { width: 0%; }
+        25% { width: 25%; }
+        50% { width: 50%; }
+        75% { width: 75%; }
+        100% { width: 100%; }
+    }
 
-        .logo .c {
-            background: #000;
-            color: #fff;
-        }
+    /* Main Card */
+    .card {
+        background: rgba(0,0,0,0.85);
+        max-width: 850px;
+        padding: 40px;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.8s ease;
+    }
 
-        .logo .n {
-            background: #fff;
-            color: #000;
-            border: 4px solid #000;
-        }
+    .card.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #000;
-        }
+    .logo {
+        display: inline-flex;
+        margin-bottom: 20px;
+    }
 
-        .tagline {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #444;
-        }
+    .logo div {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
 
-        .story {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            margin-bottom: 40px;
-            color: #333;
-        }
+    .logo .c {
+        background: #000;
+        color: #fff;
+    }
 
-        .start-btn {
-            padding: 16px 42px;
-            font-size: 1.3rem;
-            border-radius: 40px;
-            border: 3px solid #000;
-            background: linear-gradient(135deg, #ffea00, #ff5500);
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
+    .logo .n {
+        background: #fff;
+        color: #000;
+        border: 4px solid #000;
+    }
 
-        .start-btn:hover {
-            background: #00e5ff;
-            transform: scale(1.08) rotate(-1deg);
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-        }
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #ffea00;
+    }
 
-        footer {
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-    </style>
+    .tagline {
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+        color: #ddd;
+    }
+
+    .story {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 30px;
+        color: #ccc;
+    }
+
+    .game-image {
+        max-width: 100%;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .start-btn {
+        padding: 16px 42px;
+        font-size: 1.3rem;
+        border-radius: 40px;
+        border: 3px solid #ffea00;
+        background: linear-gradient(135deg, #ffea00, #ff5500);
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .start-btn:hover {
+        background: #00e5ff;
+        transform: scale(1.08) rotate(-1deg);
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    footer {
+        margin-top: 25px;
+        font-size: 0.85rem;
+        color: #999;
+    }
+
+</style>
 </head>
 <body>
 
-    <div class="card">
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+    <div>Cargando...</div>
+    <div class="loading-bar-container">
+        <div class="loading-bar"></div>
+    </div>
+</div>
 
-        <div class="logo">
-            <div class="c">C</div>
-            <div class="n">N</div>
-        </div>
-
-        <h1>Mundos Cruzados</h1>
-        <p class="tagline">
-            Un juego absurdo donde tendrás que ayudar a personajes icónicos
-        </p>
-
-        <p class="story">
-            Algo ha roto el equilibrio entre distintas realidades.
-            Extraños portales han comenzado a aparecer, conectando
-            mundos que nunca debieron cruzarse.
-            <br><br>
-            Habla con los personajes y completa misiones,
-            desbloquea portales para poder avanzar al siguiente mundo.
-        </p>
-
-        <button class="start-btn" onclick="irAlMundo()">
-            Empezar aventura
-        </button>
-
-        <footer>
-            Proyecto escolar • Johan Sinisterra y Andres Rodrigues
-        </footer>
-
+<!-- Main Card -->
+<div class="card" id="mainCard">
+    <div class="logo">
+        <div class="c">C</div>
+        <div class="n">N</div>
     </div>
 
-    <script>
-        function irAlMundo() {
-            window.location.href = "Clarence.html";
-        }
-    </script>
+    <h1>Mundos Cruzados</h1>
+    <p class="tagline">
+        Un juego absurdo y mal hecho a proposito con el objetivo de dar risa por lo simple y malo que es. 
+        Un juego donde tendrás que ayudar a personajes icónicos de cartoon network
+    </p>
+
+    <!-- Imagen estilo cartoon -->
+    <img src="https://via.placeholder.com/600x300.png?text=Mundos+Cruzados" 
+         alt="Imagen del juego" 
+         class="game-image">
+
+    <p class="story">
+        Algo ha roto el equilibrio entre distintas realidades.
+        Extraños portales han comenzado a aparecer, conectando
+        mundos que nunca debieron cruzarse.
+        <br><br>
+        Habla con los personajes y completa misiones,
+        desbloquea portales para poder avanzar al siguiente mundo Bv.
+    </p>
+
+    <button class="start-btn" onclick="irAlMundo()">
+        Empezar aventura :v?
+    </button>
+
+    <footer>
+        Proyecto • Johan Sinisterra y Andres Rodrigues
+    </footer>
+</div>
+
+<script>
+    // Mostrar tarjeta tras animación de la barra de carga
+    window.addEventListener('load', () => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainCard = document.getElementById('mainCard');
+
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            mainCard.classList.add('visible');
+        }, 4000); // 4 segundos coincidiendo con la animación
+    });
+
+    function irAlMundo() {
+        window.location.href = "Clarence.html";
+    }
+</script>
 
 </body>
 </html>
