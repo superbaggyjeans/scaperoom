@@ -11,14 +11,20 @@
 body { margin:0; overflow:hidden; }
 
 #uiMensaje{
-  position:absolute;
-  bottom:30px;
-  width:100%;
+    position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:60%;
+  padding:15px;
   text-align:center;
-  font-family:Arial;
+  font-family:Courier New;
   font-size:18px;
-  color:white;
-  text-shadow:2px 2px 4px black;
+  color:#eaeaea;
+  background:rgba(0,0,0,0.75);
+  border:2px solid red;
+  border-radius:10px;
+  box-shadow:0 0 15px red;
   z-index:9999;
 }
 </style>
@@ -86,7 +92,7 @@ body { margin:0; overflow:hidden; }
     visible="false">
   </a-entity>
 
-  <!-- HITBOX ARREGLADO -->
+  <!-- HITBOX DE SLENDERMAN XDDD-->
   <a-box id="slendermanHit" 
     class="clickable"
     position="0.991 5 -43.438"
@@ -140,24 +146,24 @@ const portal = document.querySelector("#portal");
 
 
 // OBJETIVO INICIAL
-mostrarMensaje("Objetivo: Habla con Mordecai");
+mostrarMensaje("Objetivo: Habla con Mordo");
 
 
 // MORDECAI
 mordecai.addEventListener("click", () => {
 
   if(estado === "inicio"){
-    mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero. Ve a preguntarle.");
+    mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero y lo necesito. Ve a preguntale que me lo devuelva >:v.");
 
     setTimeout(()=>{
-      mostrarMensaje("Objetivo: Entra dentro y habla con Rigby");
-    },4000);
+      mostrarMensaje("Objetivo: Entra dentro de la casa y habla con Rigby");
+    },6000);
 
     estado = "hablarRigby";
   }
 
   else if(estado === "volverMordecai" && tengoCassette){
-    mostrarMensaje("Mordecai: ¡¡¡MI MIXTAPE!!! 😭🔥 Eres un héroe bro. Toma esta llave.");
+    mostrarMensaje("Mordecai: MI MIXTAPE!!! 😭🔥 eres un crack hermano. te abro el portal chavalin.");
     portal.setAttribute("visible",true);
     estado="portal";
   }
@@ -171,9 +177,9 @@ rigby.addEventListener("click",()=>{
   if(estado==="hablarRigby"){
 
     mostrarMensaje(
-      "Rigby: BROOO 😭 Yo lo tenía...\n"+
-      "Pero se lo di a un tipo muy largo...\n"+
-      "Blanco...\nPelado...\nCon tentáculos...\n\n"+
+      "Rigby: EL MIXTAPE DE MORDO? BROOO 😭 Yo lo tenía... Pero se lo di a un tipo\n"+
+      "Muy largo como jugador de NBA\n"+
+      "Blanco...\nCALVO...\n y con tentáculos...\n\n"+
       "Creo que sigue en el bosque 💀"
     );
 
@@ -181,7 +187,7 @@ rigby.addEventListener("click",()=>{
     slendermanHit.setAttribute("visible",true);
 
     setTimeout(()=>{
-      mostrarMensaje("Objetivo: Busca al tipo largo, calvo y blanco");
+      mostrarMensaje("Objetivo: Busca al jugardor de la NBA");
     },5000);
 
     estado="buscarSlenderman";
@@ -197,7 +203,7 @@ slendermanHit.addEventListener("click",()=>{
 
   if(estado==="buscarSlenderman"){
 
-    mostrarMensaje("Slenderman: ........\n\n(tira el cassette al suelo)\n\n*empieza a bailar inquietantemente*");
+    mostrarMensaje("SLENDERMAN: ........\n\n*tira el cassette al suelo*\n\n*empieza a bailar :v*");
 
     cassette.setAttribute("visible",true);
 
