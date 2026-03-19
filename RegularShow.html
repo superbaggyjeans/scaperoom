@@ -76,23 +76,24 @@ body { margin:0; overflow:hidden; }
     scale="0.17673 0.17673 0.17673">
   </a-entity>
 
-  <!-- SLENDERMAN (modelo grande) -->
+  <!-- SLENDERMAN -->
   <a-entity id="slenderman"
     gltf-model="modelos 3d scaperoom/Hip Hop Dancing.glb"
     animation-mixer="clip:*"
     position="0.991 0.057 -43.438"
     rotation="0 -56.346 0"
-    scale="100.00 100.00 100.00"
+    scale="100 100 100"
     visible="false">
   </a-entity>
 
-  <!-- HITBOX INVISIBLE DE SLENDERMAN -->
+  <!-- HITBOX ARREGLADO -->
   <a-box id="slendermanHit" 
-         class="clickable"
-         position="0.991 0.057 -43.438"
-         scale="100 100 100"
-         opacity="0"
-         visible="false">
+    class="clickable"
+    position="0.991 5 -43.438"
+    scale="5 10 5"
+    color="red"
+    opacity="0"
+    visible="false">
   </a-box>
 
   <!-- CASSETTE -->
@@ -117,6 +118,7 @@ body { margin:0; overflow:hidden; }
 </a-scene>
 
 <script>
+
 let estado = "inicio";
 let tengoCassette = false;
 
@@ -124,89 +126,112 @@ const mensajeUI = document.getElementById("uiMensaje");
 
 function mostrarMensaje(texto){
   mensajeUI.innerText = texto;
-  setTimeout(()=>{
-    mensajeUI.innerText="";
-  },5000)
+  setTimeout(()=>{ mensajeUI.innerText=""; },5000);
 }
 
 window.onload = () => {
 
-  const mordecai = document.querySelector("#mordecai");
-  const rigby = document.querySelector("#rigby");
-  const slenderman = document.querySelector("#slenderman");
-  const slendermanHit = document.querySelector("#slendermanHit");
-  const cassette = document.querySelector("#cassette");
-  const portal = document.querySelector("#portal");
+const mordecai = document.querySelector("#mordecai");
+const rigby = document.querySelector("#rigby");
+const slenderman = document.querySelector("#slenderman");
+const slendermanHit = document.querySelector("#slendermanHit");
+const cassette = document.querySelector("#cassette");
+const portal = document.querySelector("#portal");
 
-  // OBJETIVO INICIAL
-  mostrarMensaje("Objetivo: Habla con Mordecai");
 
-  // MORDECAI
-  mordecai.addEventListener("click", () => {
-    if(estado === "inicio"){
-      mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero. Ve a preguntarle.");
-      setTimeout(()=>{
-        mostrarMensaje("Objetivo: Entra dentro y habla con Rigby");
-      },4000)
-      estado = "hablarRigby";
-    } else if(estado === "volverMordecai" && tengoCassette){
-      mostrarMensaje("Mordecai: ¡¡¡MI MIXTAPE!!! 😭🔥 Eres un héroe bro. Toma esta llave.");
-      portal.setAttribute("visible",true);
-      estado="portal";
-    }
-  });
+// OBJETIVO INICIAL
+mostrarMensaje("Objetivo: Habla con Mordecai");
 
-  // RIGBY
-  rigby.addEventListener("click",()=>{
-    if(estado==="hablarRigby"){
-      mostrarMensaje(
-        "Rigby: BROOO 😭 Yo lo tenía...\n"+
-        "Pero se lo di a un tipo muy largo...\n"+
-        "Blanco...\nPelado...\nCon tentáculos...\n\n"+
-        "Creo que sigue en el bosque 💀"
-      );
 
-      // hacemos visible el modelo y el hitbox
-      slenderman.setAttribute("visible",true);
-      slendermanHit.setAttribute("visible",true);
+// MORDECAI
+mordecai.addEventListener("click", () => {
 
-      setTimeout(()=>{
-        mostrarMensaje("Objetivo: Busca al tipo largo, calvo y blanco");
-      },500);
+  if(estado === "inicio"){
+    mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero. Ve a preguntarle.");
 
-      estado="buscarSlenderman";
-    }
-  });
+    setTimeout(()=>{
+      mostrarMensaje("Objetivo: Entra dentro y habla con Rigby");
+    },4000);
 
-  // SLENDERMAN (clic usando el hitbox)
-  slendermanHit.addEventListener("click",()=>{
-    if(estado==="buscarSlenderman"){
-      mostrarMensaje("Slenderman: ........\n\n(tira el cassette al suelo)\n\n*empieza a bailar inquietantemente*");
-      cassette.setAttribute("visible",true);
-      tengoCassette=true;
-      estado="volverMordecai";
+    estado = "hablarRigby";
+  }
 
-      // opcional: ya que interactuó, desactivamos el hitbox
-      slendermanHit.setAttribute("visible",false);
-    }
-  });
+  else if(estado === "volverMordecai" && tengoCassette){
+    mostrarMensaje("Mordecai: ¡¡¡MI MIXTAPE!!! 😭🔥 Eres un héroe bro. Toma esta llave.");
+    portal.setAttribute("visible",true);
+    estado="portal";
+  }
 
-  // CASSETTE
-  cassette.addEventListener("click",()=>{
-    if(tengoCassette){
-      cassette.setAttribute("visible",false);
-      mostrarMensaje("Has recogido el mixtape. Devuélveselo al pajarraco azul.");
-    }
-  });
+});
 
-  // PORTAL
-  portal.addEventListener("click",()=>{
-    if(estado==="portal"){
-      window.location.href="mundo3.html";
-    }
-  });
+
+// RIGBY
+rigby.addEventListener("click",()=>{
+
+  if(estado==="hablarRigby"){
+
+    mostrarMensaje(
+      "Rigby: BROOO 😭 Yo lo tenía...\n"+
+      "Pero se lo di a un tipo muy largo...\n"+
+      "Blanco...\nPelado...\nCon tentáculos...\n\n"+
+      "Creo que sigue en el bosque 💀"
+    );
+
+    slenderman.setAttribute("visible",true);
+    slendermanHit.setAttribute("visible",true);
+
+    setTimeout(()=>{
+      mostrarMensaje("Objetivo: Busca al tipo largo, calvo y blanco");
+    },5000);
+
+    estado="buscarSlenderman";
+  }
+
+});
+
+
+// SLENDERMAN (ARREGLADO)
+slendermanHit.addEventListener("click",()=>{
+
+  console.log("CLICK SLENDERMAN");
+
+  if(estado==="buscarSlenderman"){
+
+    mostrarMensaje("Slenderman: ........\n\n(tira el cassette al suelo)\n\n*empieza a bailar inquietantemente*");
+
+    cassette.setAttribute("visible",true);
+
+    tengoCassette=true;
+    estado="volverMordecai";
+
+    slendermanHit.setAttribute("visible",false);
+  }
+
+});
+
+
+// CASSETTE
+cassette.addEventListener("click",()=>{
+
+  if(tengoCassette){
+    cassette.setAttribute("visible",false);
+    mostrarMensaje("Has recogido el mixtape. Devuélveselo al pajarraco azul.");
+  }
+
+});
+
+
+// PORTAL
+portal.addEventListener("click",()=>{
+
+  if(estado==="portal"){
+    window.location.href="mundo3.html";
+  }
+
+});
 
 }
+
 </script>
 
 </body>
