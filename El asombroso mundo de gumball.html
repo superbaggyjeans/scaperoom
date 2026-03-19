@@ -39,8 +39,12 @@ body { margin:0; overflow:hidden; }
 
   <!-- JUGADOR -->
   <a-entity id="player" position="2.978 3.396 9.395">
-    <a-entity camera look-controls wasd-controls="acceleration:10">
-      <a-cursor></a-cursor>
+    <a-entity 
+      camera 
+      look-controls 
+      wasd-controls="acceleration:10"
+      cursor="rayOrigin: mouse"
+      raycaster="objects: .clickable">
     </a-entity>
   </a-entity>
 
@@ -54,15 +58,26 @@ body { margin:0; overflow:hidden; }
     scale="1 1 1">
   </a-entity>
 
-  <!-- NPCs -->
+  <!-- BEBIDA -->
+  <a-entity id="bebida"
+            gltf-model="modelos 3d scaperoom/vino_tinto_hecula.glb"
+            position="-2.000 2.157 1.516" 
+            scale="0.014 0.014 0.014"
+            rotation="0 0 0">
+  </a-entity>
+
+  <!-- GUMBALL (posición y animación del segundo código) -->
   <a-entity id="npc1" 
+            class="clickable"
             gltf-model="modelos 3d scaperoom/gumball.glb" 
             position="-1.470 2.274 1.658" 
             scale="200 200 200"
             rotation="85.185 -119.03 -143.79">
   </a-entity>
 
+  <!-- NPC2 -->
   <a-entity id="npc2" 
+            class="clickable"
             gltf-model="" 
             position="3 0 -5" 
             scale="1 1 1"
@@ -71,6 +86,7 @@ body { margin:0; overflow:hidden; }
 
   <!-- PORTAL -->
   <a-entity id="portal" 
+            class="clickable"
             gltf-model="" 
             position="0 0 -10" 
             scale="1 1 1" 
@@ -102,7 +118,7 @@ window.onload = () => {
   // Evento click en Gumball
   gumball.addEventListener("click", () => {
     mostrarMensaje("Gumball se pone de pie!");
-    
+  
     // Animación de rotación para ponerse recto
     gumball.setAttribute("animation", {
       property: "rotation",
