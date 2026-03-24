@@ -2,222 +2,218 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Mundos Cruzados - Cartoon Style</title>
+<title>Mundos Cruzados</title>
+
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Arial', sans-serif;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
 
-    body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #000;
-        color: #fff;
-    }
+body{
+overflow:hidden;
+color:white;
+}
 
-    /* Loading Screen */
-    .loading-screen {
-        position: fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:#000;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        z-index:1000;
-        color:#fff;
-        font-size:2rem;
-    }
+/* 🖼️ FONDO CON IMAGEN */
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background-image: url("TU_IMAGEN_AQUI.jpg"); /* 🔥 CAMBIA ESTO */
+background-size: cover;
+background-position: center;
+filter: brightness(0.3); /* oscuro estilo terror */
+z-index:-2;
+}
 
-    .loading-bar-container {
-        width: 60%;
-        height: 30px;
-        border: 3px solid #fff;
-        margin-top: 20px;
-        border-radius: 10px;
-        overflow: hidden;
-        background: #222;
-    }
+/* OVERLAY */
+.overlay{
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+z-index:-1;
+}
 
-    .loading-bar {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #ffea00, #ff5500);
-        animation: loadBar 4s linear forwards;
-    }
+/* 💀 LOADING */
+.loading-screen{
+position:fixed;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
 
-    @keyframes loadBar {
-        0% { width: 0%; }
-        25% { width: 25%; }
-        50% { width: 50%; }
-        75% { width: 75%; }
-        100% { width: 100%; }
-    }
+/* TEXTO GLITCH */
+.loading-text{
+font-size:2rem;
+margin-bottom:20px;
+animation: glitch 0.3s infinite;
+}
 
-    /* Main Card */
-    .card {
-        background: rgba(0,0,0,0.85);
-        max-width: 850px;
-        padding: 40px;
-        border-radius: 25px;
-        text-align: center;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-        opacity: 0;
-        transform: scale(0.9);
-        transition: all 0.8s ease;
-    }
+@keyframes glitch{
+0%{transform:translate(0);}
+25%{transform:translate(2px,-2px);}
+50%{transform:translate(-2px,2px);}
+75%{transform:translate(2px,2px);}
+100%{transform:translate(0);}
+}
 
-    .card.visible {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* BARRA */
+.loading-bar-container{
+width:60%;
+height:25px;
+border:2px solid red;
+overflow:hidden;
+background:#111;
+}
 
-    .logo {
-        display: inline-flex;
-        margin-bottom: 20px;
-    }
+.loading-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg, rgb(255, 0, 0), rgb(255, 0, 0), rgb(255, 0, 0));
+animation:load 5s linear forwards;
+}
 
-    .logo div {
-        width: 70px;
-        height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
+@keyframes load{
+0%{width:0%;}
+100%{width:100%;}
+}
 
-    .logo .c {
-        background: #000;
-        color: #fff;
-    }
+/* TEXTO CAMBIANTE */
+.loading-sub{
+margin-top:15px;
+font-size:1rem;
+color:#ccc;
+}
 
-    .logo .n {
-        background: #fff;
-        color: #000;
-        border: 4px solid #000;
-    }
+/* FLASH */
+.flash{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+pointer-events:none;
+}
 
-    h1 {
-        font-size: 3rem;
-        margin-bottom: 15px;
-        color: #ffea00;
-    }
+/* CARD */
+.card{
+opacity:0;
+transform:scale(0.8);
+transition:1s;
+text-align:center;
+padding:40px;
+}
 
-    .tagline {
-        font-size: 1.2rem;
-        margin-bottom: 25px;
-        color: #ddd;
-    }
+.card.visible{
+opacity:1;
+transform:scale(1);
+}
 
-    .story {
-        font-size: 1.05rem;
-        line-height: 1.7;
-        margin-bottom: 30px;
-        color: #ccc;
-    }
-
-    .game-image {
-        max-width: 100%;
-        border-radius: 15px;
-        margin-bottom: 30px;
-    }
-
-    .start-btn {
-        padding: 16px 42px;
-        font-size: 1.3rem;
-        border-radius: 40px;
-        border: 3px solid #ffea00;
-        background: linear-gradient(135deg, #ffea00, #ff5500);
-        color: #000;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.25s ease;
-    }
-
-    .start-btn:hover {
-        background: #00e5ff;
-        transform: scale(1.08) rotate(-1deg);
-        box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    }
-
-    footer {
-        margin-top: 25px;
-        font-size: 0.85rem;
-        color: #999;
-    }
+/* BOTON */
+.start-btn{
+padding:15px 40px;
+font-size:1.2rem;
+background:yellow;
+border:none;
+cursor:pointer;
+margin-top:20px;
+}
 
 </style>
 </head>
+
 <body>
 
-<!-- Loading Screen -->
-<div class="loading-screen" id="loadingScreen">
-    <div>Cargando...</div>
-    <div class="loading-bar-container">
-        <div class="loading-bar"></div>
-    </div>
+<!-- 🖼️ FONDO -->
+<div class="background"></div>
+<div class="overlay"></div>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loading">
+
+<div class="loading-text">Cargando...</div>
+
+<div class="loading-bar-container">
+<div class="loading-bar"></div>
 </div>
 
-<!-- Main Card -->
-<div class="card" id="mainCard">
-    <div class="logo">
-        <div class="c">C</div>
-        <div class="n">N</div>
-    </div>
+<div class="loading-sub" id="subtexto">
+Inicializando mundos...
+</div>
 
-    <h1>Mundos Cruzados</h1>
-    <p class="tagline">
-        Un juego absurdo y mal hecho a proposito con el objetivo de dar risa por lo simple y malo que es. 
-        Un juego donde tendrás que ayudar a personajes icónicos de Cartoon network
-    </p>
+</div>
 
-    <!-- Imagen estilo cartoon -->
-    <img src="https://via.placeholder.com/600x300.png?text=Mundos+Cruzados" 
-         alt="Imagen del juego" 
-         class="game-image">
+<!-- FLASH -->
+<div class="flash" id="flash"></div>
 
-    <p class="story">
-        Algo ha roto el equilibrio entre distintas realidades.
-        Extraños portales han comenzado a aparecer, conectando
-        mundos que nunca debieron cruzarse.
-        <br><br>
-        Habla con los personajes y completa misiones,
-        desbloquea portales para poder avanzar al siguiente mundo Bv.
-    </p>
+<!-- MAIN -->
+<div class="card" id="main">
 
-    <button class="start-btn" onclick="irAlMundo()">
-        Empezar aventura?
-    </button>
+<h1>Mundos Cruzados</h1>
+<p> Un juego absurdo y mal hecho a proposito
+con el objetivo de dar risa por lo simple y malo que es.
+Un juego donde tendrás que ayudar a personajes icónicos de Cartoon network
+</p>
 
-    <footer>
-        Proyecto • Johan Sinisterra y Andres Rodrigues
-    </footer>
+<button class="start-btn" onclick="ir()">
+EMPEZAR
+</button>
+
 </div>
 
 <script>
-    // Mostrar tarjeta tras animación de la barra de carga
-    window.addEventListener('load', () => {
-        const loadingScreen = document.getElementById('loadingScreen');
-        const mainCard = document.getElementById('mainCard');
 
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            mainCard.classList.add('visible');
-        }, 4000); // 4 segundos coincidiendo con la animación
-    });
+// FRASES
+const frases = [
+"Cargando texturas inexistentes...",
+"Invocando a Clarence...",
+"Rigby robando código...",
+"Gumball rompiendo la realidad...",
+"Slenderman bailando...",
+"Error 404: sentido no encontrado"
+];
 
-    function irAlMundo() {
-        window.location.href = "Clarence.html";
-    }
+let i = 0;
+
+setInterval(()=>{
+document.getElementById("subtexto").innerText = frases[i % frases.length];
+i++;
+},1500);
+
+
+// FINAL LOADING
+window.onload = () => {
+
+setTimeout(()=>{
+
+// FLASH
+const flash = document.getElementById("flash");
+flash.style.opacity = 1;
+
+setTimeout(()=>{
+flash.style.opacity = 0;
+},200);
+
+// MOSTRAR MENU
+document.getElementById("loading").style.display="none";
+document.getElementById("main").classList.add("visible");
+
+},5000);
+
+}
+
+function ir(){
+window.location.href="Clarence.html";
+}
+
 </script>
 
 </body>
