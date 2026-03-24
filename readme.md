@@ -8,3 +8,6 @@ Planificació temporal:
 Inici:
 [a link] 
 (https://superbaggyjeans.github.io/Mundos-cruzados/)
+
+JUEGO:
+https://superbaggyjeans.github.io/scaperoom/
