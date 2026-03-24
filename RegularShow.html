@@ -132,7 +132,7 @@ const mensajeUI = document.getElementById("uiMensaje");
 
 function mostrarMensaje(texto){
   mensajeUI.innerText = texto;
-  setTimeout(()=>{ mensajeUI.innerText=""; },5000);
+  setTimeout(()=>{ mensajeUI.innerText=""; },9000);
 }
 
 window.onload = () => {
@@ -146,14 +146,14 @@ const portal = document.querySelector("#portal");
 
 
 // OBJETIVO INICIAL
-mostrarMensaje("Objetivo: Habla con Mordo");
+mostrarMensaje("Objetivo: Habla con Mordecai");
 
 
 // MORDECAI
 mordecai.addEventListener("click", () => {
 
   if(estado === "inicio"){
-    mostrarMensaje("Mordecai: Bro... Rigby tenía mi mixtape ochentero y lo necesito. Ve a preguntale que me lo devuelva >:v.");
+    mostrarMensaje("Mordecai: Bro... Rigby tenía mi Cassete ochentero y lo necesito. Ve a preguntale que me lo devuelva >:v (Traspasa la puerta este juego no tiene colisiones XD)");
 
     setTimeout(()=>{
       mostrarMensaje("Objetivo: Entra dentro de la casa y habla con Rigby");
@@ -163,7 +163,7 @@ mordecai.addEventListener("click", () => {
   }
 
   else if(estado === "volverMordecai" && tengoCassette){
-    mostrarMensaje("Mordecai: MI MIXTAPE!!! 😭🔥 eres un crack hermano. te abro el portal chavalin.");
+    mostrarMensaje("Mordecai: MI CASSETTE!!! 😭🔥 eres un crack hermano. te abro el portal chavalin.");
     portal.setAttribute("visible",true);
     estado="portal";
   }
@@ -177,7 +177,7 @@ rigby.addEventListener("click",()=>{
   if(estado==="hablarRigby"){
 
     mostrarMensaje(
-      "Rigby: EL MIXTAPE DE MORDO? BROOO 😭 Yo lo tenía... Pero se lo di a un tipo\n"+
+      "Rigby: EL CASSETTE DE MORDO? BROOO 😭 Yo lo tenía... Pero se lo di a un tipo\n"+
       "Muy largo...\n"+
       "Blanco...\nCALVO...\n y con tentáculos...\n\n"+
       "Creo que sigue en el bosque 💀"
@@ -187,7 +187,7 @@ rigby.addEventListener("click",()=>{
     slendermanHit.setAttribute("visible",true);
 
     setTimeout(()=>{
-      mostrarMensaje("Objetivo: se me ha olvidado el objetivo :'v");
+      mostrarMensaje("Ve afuera de nuevo y busca al tipo raro ese yo que se");
     },5000);
 
     estado="buscarSlenderman";
