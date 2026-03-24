@@ -129,7 +129,7 @@ window.onload = () => {
 
    if (estado === "inicio") {
      dialogo.setAttribute("value",
-       "Oda compañero jiji \nTengo hambre...\nBúscame una pizza BROOO");
+       "Oda kompañero jiji \nTengo ambre...\nvúscame una piptzaa jiji");
      dialogo.setAttribute("visible", true);
      pizza.setAttribute("visible", true);
      estado = "buscandoPizza";
@@ -137,7 +137,7 @@ window.onload = () => {
 
    else if (estado === "entregoPizza") {
      dialogo.setAttribute("value",
-       "Grashias mi amol 😍\n¿Mis mejores amigos?");
+       "Grashias amiko jiji \n¿Mis mejores amigos?");
      
      ui.style.display = "block";
      respuestaInput.focus();
@@ -165,7 +165,7 @@ window.onload = () => {
      if (respuesta.includes("jeff") && respuesta.includes("sumo")) {
 
        dialogo.setAttribute("value",
-         "CORRECTO 😈\nToma la llave");
+         "Corrrrectooooo 😈\nToma eta yave");
 
        ui.style.display = "none";
        llave.setAttribute("visible", true);
@@ -173,7 +173,7 @@ window.onload = () => {
 
      } else {
        dialogo.setAttribute("value",
-         "ERROR 😈\nUno cuadrado y otro calvo...");
+         "Erroneo. veo que tu iq es bastante mediocre. que lastima pero te dare una pista \nUno con cara cuadrada y otro calvo...");
      }
    }
  });
