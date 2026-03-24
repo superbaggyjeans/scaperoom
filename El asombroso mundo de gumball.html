@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <title>El Asombroso Mundo de Gumball</title>
 
-<!-- AFRAME -->
 <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 
 <style>
@@ -66,7 +65,19 @@ body { margin:0; overflow:hidden; }
             rotation="0 0 0">
   </a-entity>
 
-  <!-- GUMBALL (posición y animación del segundo código) -->
+  <!-- LLAVE -->
+  <a-entity id="llave"
+            class="clickable"
+            gltf-model="modelos 3d scaperoom/llave.glb"
+            position="3.14874 2.89411 -6.42119"
+            scale="0.029 0.029 0.024"
+            rotation="0 83.66558907618332 0"
+            geometry="primitive: box"
+            material="opacity: 0"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
+  </a-entity>
+
+  <!-- GUMBALL -->
   <a-entity id="npc1" 
             class="clickable"
             gltf-model="modelos 3d scaperoom/gumball.glb" 
@@ -75,22 +86,21 @@ body { margin:0; overflow:hidden; }
             rotation="85.185 -119.03 -143.79">
   </a-entity>
 
-  <!-- NPC2 -->
+  <!-- DARWIN -->
   <a-entity id="npc2" 
             class="clickable"
-            gltf-model="" 
-            position="3 0 -5" 
-            scale="1 1 1"
+            gltf-model="modelos 3d scaperoom/darwin_watterson.glb" 
+            position="4.20093 2.19796 0.09354"
+            scale="100 100 100"
             rotation="0 180 0">
   </a-entity>
 
-  <!-- PORTAL -->
-  <a-entity id="portal" 
+  <!-- PORTAL QUE APARECE -->
+  <a-entity id="portal"
             class="clickable"
-            gltf-model="" 
-            position="0 0 -10" 
-            scale="1 1 1" 
-            visible="true">
+            gltf-model="modelos 3d scaperoom/portal.glb"
+            position="0 2.96999 1.46378" scale="0.33134 0.33134 0.33134"
+            visible="false">
   </a-entity>
 
 </a-scene>
@@ -98,28 +108,47 @@ body { margin:0; overflow:hidden; }
 <script>
 const mensajeUI = document.getElementById("uiMensaje");
 
-function mostrarMensaje(texto){
+// Función para mostrar mensajes
+function mostrarMensaje(texto, duracion = 4000){
   mensajeUI.innerText = texto;
-  setTimeout(()=>mensajeUI.innerText="",4000);
+  setTimeout(()=>mensajeUI.innerText="", duracion);
 }
 
+// Estado del juego
+let tieneLlave = false;
+
 window.onload = () => {
+
   const portal = document.querySelector("#portal");
   const gumball = document.querySelector("#npc1");
+  const darwin = document.querySelector("#npc2");
+  const llave = document.querySelector("#llave");
 
-  mostrarMensaje("Explora el mundo. Haz lo que te pidan los personajes, encuentra la llave y ve al siguiente mundo.");
+  mostrarMensaje("Explora el mundo. Haz lo que te pidan los personajes, encuentra la llave.", 7000);
 
-  // Evento portal
-  portal.addEventListener("click", () => {
-    mostrarMensaje("Entrando al siguiente mundo...");   
-    setTimeout(()=>{ window.location.href="siguiente_mundo.html"; },1500);
+  // RECOGER LLAVE
+  llave.addEventListener("click", () => {
+    mostrarMensaje("Has conseguido la llave 🔑 llevasela a Gumball", 5000);
+    tieneLlave = true;
+    llave.setAttribute("visible", false);
   });
 
-  // Evento click en Gumball
+  // CLICK EN GUMBALL
   gumball.addEventListener("click", () => {
-    mostrarMensaje("Gumball se pone de pie!");
-  
-    // Animación de rotación para ponerse recto
+
+    if(tieneLlave){
+      mostrarMensaje("OHHHH gracias chaval 😭 encontraste las llaves, eres un crack", 7000);
+
+      // Después de 3s: mostrar portal
+      setTimeout(() => {
+        portal.setAttribute("visible", true);
+      }, 3000);
+
+      return;
+    }
+
+    mostrarMensaje("ohhhh chaval estaba un poco loquito, no sé lo que haces en mi casa pero ayudame a ha buscar a mi hermano, que tiene las llaves de nuestra habitación", 7000);
+
     gumball.setAttribute("animation", {
       property: "rotation",
       to: "0 0 0",
@@ -127,6 +156,40 @@ window.onload = () => {
       easing: "easeOutQuad"
     });
   });
+
+  // DARWIN
+  let estadoDarwin = 0;
+  darwin.addEventListener("click", () => {
+    if(estadoDarwin === 0){
+      mostrarMensaje("hey muchacho shhhh, me estoy escondiendo de Gumball que ayer se paso con......", 7000);
+      estadoDarwin++;
+    } 
+    else if(estadoDarwin === 1){
+      mostrarMensaje("Bueno da igual, que quieres?", 7000);
+      estadoDarwin++;
+    } 
+    else if(estadoDarwin === 2){
+      mostrarMensaje("aaaaa las llaves de la habitación ayer la perdi, la tenia pero ya no y no se donde esta y la tendras que buscar", 9000);
+      estadoDarwin++;
+    } 
+    else {
+      mostrarMensaje("Busca por la casa, tiene que estar por aquí", 7000);
+    }
+
+    darwin.setAttribute("animation", {
+      property: "rotation",
+      to: "0 360 0",
+      dur: 1000,
+      easing: "easeInOutQuad"
+    });
+  });
+
+  // CLICK EN PORTAL
+  portal.addEventListener("click", () => {
+    mostrarMensaje("Entrando al siguiente mundo...", 4000);   
+    setTimeout(()=>{ window.location.href="siguiente_mundo.html"; },1500);
+  });
+
 }
 </script>
 
